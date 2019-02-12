@@ -1,0 +1,20 @@
+trigger CaseTrigger on Case (before insert,before update) {
+    
+    for (Case c : trigger.new) {
+        system.debug('c value '+c.kuruvi__CaseOwner__c);
+        if(c.kuruvi__CaseOwnerTrigger__c == null){
+            c.kuruvi__CaseOwnerTrigger__c = c.kuruvi__CaseOwner__c;
+        }else{
+            List<String> stringvalue = new List<String>();
+            stringvalue = c.kuruvi__CaseOwnerTrigger__c.split(',');
+            Set<String> ss = new Set<String>();         
+            for(String s:stringvalue){
+                ss.add(s);
+            }
+            if(!ss.contains(c.kuruvi__CaseOwner__c)){
+                c.kuruvi__CaseOwnerTrigger__c += ','+c.kuruvi__CaseOwner__c;
+            }
+        }
+    }
+    
+}
